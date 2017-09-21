@@ -19,13 +19,18 @@
             #region Modified code
             // Item[] itemArray = item.Children.ToArray();
             Item[] itemArray = item.Axes.SelectItems("descendant::*[@@templateid='" + Sitecore.TemplateIDs.Workflow.ToString() + "']");
-            #endregion
-            IWorkflow[] workflowArray = new IWorkflow[itemArray.Length];
-            for (int i = 0; i < itemArray.Length; i++)
+
+            if (itemArray != null)
             {
-                workflowArray[i] = this.InstantiateWorkflow(itemArray[i].ID.ToString(), this);
+                IWorkflow[] workflowArray = new IWorkflow[itemArray.Length];
+                for (int i = 0; i < itemArray.Length; i++)
+                {
+                    workflowArray[i] = this.InstantiateWorkflow(itemArray[i].ID.ToString(), this);
+                }
+                return workflowArray;
             }
-            return workflowArray;
+            return new IWorkflow[0];     
+            #endregion
         }
     }
 }
